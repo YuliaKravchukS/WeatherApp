@@ -13,7 +13,7 @@ body {
   justify-content: space-around;
   align-items: center;
   gap: 55px;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 15px;
   box-sizing: border-box;
   color: #f2eded;
