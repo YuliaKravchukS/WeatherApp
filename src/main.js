@@ -54,8 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateWeatherInfoDetails(dataAutocomplete);
         updateWeatherInfoFuture(dataAutocomplete);
       },
-      error => {
-        console.error('Помилка отримання геолокації:', error);
+      async error => {
+        alert(
+          'Error getting geolocation. Please enter the name of the city',
+          error
+        );
+        const dataAutocomplete = await fetchForecastWeather('Kyiv');
+        updateWeatherInfo(dataAutocomplete);
+        updateWeatherInfoDetails(dataAutocomplete);
+        updateWeatherInfoFuture(dataAutocomplete);
       }
     );
   } catch (error) {
