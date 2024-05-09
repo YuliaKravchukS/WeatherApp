@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export const fetchForecastWeather = async (q = '', days = 7) => {
   const { data } = await axios.get(
-    'http://api.weatherapi.com/v1/forecast.json',
+    'https://api.weatherapi.com/v1/forecast.json',
     {
       params: {
         // lang: langCode,
