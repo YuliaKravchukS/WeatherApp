@@ -1,19 +1,22 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: 'http://api.weatherapi.com/v1',
-});
+// const instance = axios.create({
+//   baseURL: 'http://api.weatherapi.com/v1',
+// });
 // const langCode = navigator.language.split("-")[0];
 
 export const fetchForecastWeather = async (q = '', days = 7) => {
-  const { data } = await instance.get('/forecast.json', {
-    params: {
-      // lang: langCode,
-      days: days,
-      q: q,
-      key: '7e3aa98d0d394983b9975256240705',
-    },
-  });
+  const { data } = await axios.get(
+    'http://api.weatherapi.com/v1/forecast.json',
+    {
+      params: {
+        // lang: langCode,
+        days: days,
+        q: q,
+        key: '25f15b55d263487589983533240905',
+      },
+    }
+  );
   return data;
 };
 
