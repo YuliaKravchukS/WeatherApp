@@ -143,6 +143,9 @@ body {
 .condition-more__value {
   font-size: 16px;
 }
+.card__detailsContainer {
+  height: 200px;
+}
 .details,
 .future {
   display: flex;
