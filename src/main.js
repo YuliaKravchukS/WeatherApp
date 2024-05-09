@@ -1,22 +1,26 @@
 import axios from 'axios';
 
-// const instance = axios.create({
-//   baseURL: 'http://api.weatherapi.com/v1',
-// });
-// const langCode = navigator.language.split("-")[0];
-
 export const fetchForecastWeather = async (q = '', days = 7) => {
   const { data } = await axios.get(
     'https://api.weatherapi.com/v1/forecast.json',
     {
       params: {
-        // lang: langCode,
         days: days,
         q: q,
         key: '25f15b55d263487589983533240905',
       },
     }
   );
+  return data;
+};
+export const fetchCurrentPosition = async (latitude, longitude) => {
+  const { data } = await axios.get('https://geocode.maps.co/reverse', {
+    params: {
+      lat: latitude,
+      lon: longitude,
+      api_key: '663cc74cce557992281678asg62c6c6',
+    },
+  });
   return data;
 };
 
@@ -40,8 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     navigator.geolocation.getCurrentPosition(
       async position => {
         const { latitude, longitude } = position.coords;
-        const currentLocation = `${latitude}, ${longitude}`;
-        const dataAutocomplete = await fetchForecastWeather(currentLocation);
+        // const currentLocation = `${latitude}, ${longitude}`;
+        const dataCurrentTown = await fetchCurrentPosition(latitude, longitude);
+        console.log('dataCurrentPosition: ', dataCurrentTown.address.town);
+        const dataAutocomplete = await fetchForecastWeather(
+          `${dataCurrentTown.address.town}, ${dataCurrentTown.address.country}`
+        );
         updateWeatherInfo(dataAutocomplete);
         updateWeatherInfoDetails(dataAutocomplete);
         updateWeatherInfoFuture(dataAutocomplete);
