@@ -11,13 +11,14 @@
     
     <script type="module" crossorigin src="/WeatherApp/commonHelpers.js"></script>
     <link rel="modulepreload" crossorigin href="/WeatherApp/assets/vendor-34f890c2.js">
-    <link rel="stylesheet" href="/WeatherApp/assets/index-c69d1d35.css">
+    <link rel="stylesheet" href="/WeatherApp/assets/index-0d8c562c.css">
   </head>
   <body>
      <div class="search">
         <input class="search__input" placeholder="Enter city name"></input>
         <button class="search__button">🔍</button>
      </div>
+     <span class="loader"></span>
     <div class="card card__container">
       <div class="weather weather__container">
       <h2 class="weather__city"></h2>
@@ -35,7 +36,7 @@
           <p class="condition-more__text" >RealFeel</p>
           <p class="condition-more__value" data-textCondition="feelslike"></p>
         
-       </div></div>
+       </div>
        <div class="condition-more__details">
         <i class='fas fa-wind fa-xs' style='color:#f1f3f3'></i>
         <div>
@@ -59,7 +60,8 @@
       </div>
      </div>
      </div>  
-      </div>  
+      </div> 
+     </div> 
      <div class="card card__container  card__detailsContainer">
       <div class="details">
       </div>
