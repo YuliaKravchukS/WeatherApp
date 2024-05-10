@@ -38,9 +38,9 @@ const uv = document.querySelector('p[data-textCondition="uv"]');
 const tempRange = document.querySelector('.weather__text-range');
 const loader = document.querySelector('.loader');
 
-hideElements('.card__container');
+// hideElements('.card__container');
 document.addEventListener('DOMContentLoaded', () => {
-  hideElements('.card__container');
+  // hideElements('.card__container');
   const userResponse = confirm('Allow location access?');
 
   if (userResponse) {
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     alert('Error getting geolocation. Please enter the name of the city');
     loader.style.visibility = 'hidden';
-    hideElements('.card__container');
+    // hideElements('.card__container');
   }
 });
 btn.addEventListener('click', async () => {
