@@ -36,23 +36,26 @@ const wind = document.querySelector('p[data-textCondition="wind_mph"]');
 const humidity = document.querySelector('p[data-textCondition="humidity"]');
 const uv = document.querySelector('p[data-textCondition="uv"]');
 const tempRange = document.querySelector('.weather__text-range');
+const loader = document.querySelector('.loader');
 
+hideElements('.card__container');
 document.addEventListener('DOMContentLoaded', () => {
   // const userResponse = confirm("Дозволити доступ до місцезнаходження?");
-
+  hideElements('.card__container');
   try {
     navigator.geolocation.getCurrentPosition(
       async position => {
         const { latitude, longitude } = position.coords;
-        // const currentLocation = `${latitude}, ${longitude}`;
         const dataCurrentTown = await fetchCurrentPosition(latitude, longitude);
-        console.log('dataCurrentPosition: ', dataCurrentTown.address.town);
         const dataAutocomplete = await fetchForecastWeather(
           `${dataCurrentTown.address.town}, ${dataCurrentTown.address.country}`
         );
+
         updateWeatherInfo(dataAutocomplete);
         updateWeatherInfoDetails(dataAutocomplete);
         updateWeatherInfoFuture(dataAutocomplete);
+        loader.style.visibility = 'hidden';
+        visibleElements('.card__container');
       },
       async error => {
         alert(
@@ -63,20 +66,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateWeatherInfo(dataAutocomplete);
         updateWeatherInfoDetails(dataAutocomplete);
         updateWeatherInfoFuture(dataAutocomplete);
+        loader.style.visibility = 'hidden';
+        visibleElements('.card__container');
       }
     );
   } catch (error) {
-    console.error('Помилка при спробі отримати геолокацію:', error);
+    console.error('Error getting geolocation', error);
   }
 });
 btn.addEventListener('click', async () => {
   const cityName = input.value;
 
   try {
+    loader.style.visibility = 'visible';
+    hideElements('.card__container');
     const dataForecast = await fetchForecastWeather(cityName);
     updateWeatherInfo(dataForecast);
     updateWeatherInfoDetails(dataForecast);
     updateWeatherInfoFuture(dataForecast);
+    loader.style.visibility = 'hidden';
+    visibleElements('.card__container');
   } catch (error) {
     console.error('Error fetching weather data:', error);
   }
@@ -87,10 +96,14 @@ input.addEventListener('keydown', async e => {
     const cityName = input.value;
 
     try {
+      loader.style.visibility = 'visible';
+      hideElements('.card__container');
       const dataForecast = await fetchForecastWeather(cityName);
       updateWeatherInfo(dataForecast);
       updateWeatherInfoDetails(dataForecast);
       updateWeatherInfoFuture(dataForecast);
+      loader.style.visibility = 'hidden';
+      visibleElements('.card__container');
     } catch (error) {
       console.error('Error fetching weather data:', error);
     }
@@ -201,5 +214,18 @@ function updateWeatherInfoFuture(data) {
 
   futureCols.forEach(futureCol => {
     futureContainer.appendChild(futureCol);
+  });
+}
+
+function hideElements(selector) {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach(element => {
+    element.style.visibility = 'hidden';
+  });
+}
+function visibleElements(selector) {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach(element => {
+    element.style.visibility = 'visible';
   });
 }
