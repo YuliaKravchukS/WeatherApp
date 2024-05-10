@@ -40,38 +40,48 @@ const loader = document.querySelector('.loader');
 
 hideElements('.card__container');
 document.addEventListener('DOMContentLoaded', () => {
-  const userResponse = confirm('Дозволити доступ до місцезнаходження?');
   hideElements('.card__container');
-  try {
-    navigator.geolocation.getCurrentPosition(
-      async position => {
-        const { latitude, longitude } = position.coords;
-        const dataCurrentTown = await fetchCurrentPosition(latitude, longitude);
-        const dataAutocomplete = await fetchForecastWeather(
-          `${dataCurrentTown.address.town}, ${dataCurrentTown.address.country}`
-        );
+  const userResponse = confirm('Allow location access?');
 
-        updateWeatherInfo(dataAutocomplete);
-        updateWeatherInfoDetails(dataAutocomplete);
-        updateWeatherInfoFuture(dataAutocomplete);
-        loader.style.visibility = 'hidden';
-        visibleElements('.card__container');
-      },
-      async error => {
-        alert(
-          'Error getting geolocation. Please enter the name of the city',
-          error
-        );
-        const dataAutocomplete = await fetchForecastWeather('Kyiv');
-        updateWeatherInfo(dataAutocomplete);
-        updateWeatherInfoDetails(dataAutocomplete);
-        updateWeatherInfoFuture(dataAutocomplete);
-        loader.style.visibility = 'hidden';
-        visibleElements('.card__container');
-      }
-    );
-  } catch (error) {
-    console.error('Error getting geolocation', error);
+  if (userResponse) {
+    try {
+      navigator.geolocation.getCurrentPosition(
+        async position => {
+          const { latitude, longitude } = position.coords;
+          const dataCurrentTown = await fetchCurrentPosition(
+            latitude,
+            longitude
+          );
+          const dataAutocomplete = await fetchForecastWeather(
+            `${dataCurrentTown.address.town}, ${dataCurrentTown.address.country}`
+          );
+
+          updateWeatherInfo(dataAutocomplete);
+          updateWeatherInfoDetails(dataAutocomplete);
+          updateWeatherInfoFuture(dataAutocomplete);
+          loader.style.visibility = 'hidden';
+          visibleElements('.card__container');
+        },
+        async error => {
+          alert(
+            'Error getting geolocation. Please enter the name of the city',
+            error
+          );
+          const dataAutocomplete = await fetchForecastWeather('Kyiv');
+          updateWeatherInfo(dataAutocomplete);
+          updateWeatherInfoDetails(dataAutocomplete);
+          updateWeatherInfoFuture(dataAutocomplete);
+          loader.style.visibility = 'hidden';
+          visibleElements('.card__container');
+        }
+      );
+    } catch (error) {
+      console.error('Error getting geolocation', error);
+    }
+  } else {
+    alert('Error getting geolocation. Please enter the name of the city');
+    loader.style.visibility = 'hidden';
+    hideElements('.card__container');
   }
 });
 btn.addEventListener('click', async () => {
