@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchForecastWeather = async (q = '', days = 7) => {
+export const fetchForecastWeather = async (q = '', days = 5) => {
   const { data } = await axios.get(
     'https://api.weatherapi.com/v1/forecast.json',
     {
@@ -40,7 +40,7 @@ const loader = document.querySelector('.loader');
 
 hideElements('.card__container');
 document.addEventListener('DOMContentLoaded', () => {
-  // const userResponse = confirm("Дозволити доступ до місцезнаходження?");
+  const userResponse = confirm('Дозволити доступ до місцезнаходження?');
   hideElements('.card__container');
   try {
     navigator.geolocation.getCurrentPosition(
@@ -128,16 +128,7 @@ function updateWeatherInfoDetails(data) {
   });
 
   const detailsContainer = document.querySelector('.details');
-  const futureContainer = document.querySelector('.future');
   const markup = `    
-    <img class="details__img" src="" alt="">
-      <p class="details__hour"></p>
-      <p class="details__temp"></p>
-      
-      <p class="details__text"></p>
-  
-  `;
-  const markupFuture = `    
     <img class="details__img" src="" alt="">
       <p class="details__hour"></p>
       <p class="details__temp"></p>
@@ -147,7 +138,6 @@ function updateWeatherInfoDetails(data) {
   `;
 
   detailsContainer.innerHTML = '';
-  futureContainer.innerHTML = '';
 
   let detailsCols = [];
 
@@ -171,7 +161,7 @@ function updateWeatherInfoDetails(data) {
     }
   });
 
-  detailsCols = detailsCols.slice(0, 7);
+  detailsCols = detailsCols.slice(0, 5);
 
   detailsCols.forEach(detailsCol => {
     detailsContainer.appendChild(detailsCol);
